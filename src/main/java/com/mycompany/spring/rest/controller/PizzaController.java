@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class PizzaController {
-    
+
     @RequestMapping("/pizza")
     public Pizza pizza(@RequestParam(value="name", defaultValue="World") String name) {                        
         Size medium = new Size(20.5, SizeType.MEDIUM);
