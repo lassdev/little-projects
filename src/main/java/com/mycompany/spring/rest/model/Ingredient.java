@@ -5,14 +5,21 @@
  */
 package com.mycompany.spring.rest.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 /**
  *
  * @author HOUSE
  */
+@Entity
 public class Ingredient {
-    
+
+    @Id
+    @GeneratedValue
+    private Long id;
     private String name;
-    private String price;
+    private Double price;
 
     /**
      * @return the name
@@ -31,14 +38,14 @@ public class Ingredient {
     /**
      * @return the price
      */
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
     /**
      * @param price the price to set
      */
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
     
