@@ -37,7 +37,7 @@ public class OrderController {
 
         OrderShop order = orderRepository.findOne(orderId);
 
-        order.getPizzas().add(itemOrder.getPizza());
+        //order.getPizzas().add(itemOrder.getPizza());
         orderRepository.save(order);
     }
 
@@ -47,7 +47,7 @@ public class OrderController {
 
         OrderShop order = orderRepository.findOne(orderId);
 
-        order.getProduct().add(itemOrder.getProduct());
+        //order.getProduct().add(itemOrder.getProduct());
         orderRepository.save(order);
     }
 

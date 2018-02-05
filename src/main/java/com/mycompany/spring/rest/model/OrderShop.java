@@ -22,8 +22,8 @@ public class OrderShop {
     private Long id;
 
     private Double totalPrice;
-    private List<Pizza> pizzas;
-    private List<Product> product;
+//    private List<Pizza> pizzas;
+//    private List<Product> product;
     private String statusOrder;
 
 
@@ -35,21 +35,21 @@ public class OrderShop {
         this.totalPrice = totalPrice;
     }
 
-    public List<Pizza> getPizzas() {
-        return pizzas;
-    }
-
-    public void setPizzas(List<Pizza> pizzas) {
-        this.pizzas = pizzas;
-    }
-
-    public List<Product> getProduct() {
-        return product;
-    }
-
-    public void setProduct(List<Product> product) {
-        this.product = product;
-    }
+//    public List<Pizza> getPizzas() {
+//        return pizzas;
+//    }
+//
+//    public void setPizzas(List<Pizza> pizzas) {
+//        this.pizzas = pizzas;
+//    }
+//
+//    public List<Product> getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(List<Product> product) {
+//        this.product = product;
+//    }
 
     public String getStatusOrder() {
         return statusOrder;
