@@ -14,45 +14,27 @@ import java.util.List;
  * @author HOUSE
  */
 @Entity
-public class Pizza {
+public class Pizza implements Priceable {
 
     @Id
     @GeneratedValue
     private  Long id;
-
-
     // optional slices prefer customer
     private Integer slices;
 
     // force ingredients
-    @OneToOne(
-            cascade = CascadeType.ALL
-    )
-    private Ingredient cheese;
+    private String cheese;
+    private String sauce;
+    private String crust;    
+
+    @OneToMany(
+            cascade = CascadeType.ALL            
+    )   
+   private List<Topping> toopings;
 
     @OneToOne(
             cascade = CascadeType.ALL
     )
-    private Ingredient sauce;
-
-    @OneToOne(
-            cascade = CascadeType.ALL
-    )
-    private Ingredient crust;
-
-    @OneToOne(
-            cascade = CascadeType.ALL
-    )
-
-//    /***
-//     * Optional Ingredients
-//     */
-//    @OneToMany(
-//            cascade = CascadeType.ALL
-//    )
-//
-//    private List<Ingredient> ingredients;
-
     private Size size;
 
     @OneToOne(
@@ -88,50 +70,81 @@ public class Pizza {
         this.pizzaType = pizzaType;
     }
 
-//    /**
-//     * @return the ingredients
-//     */
-//    public List<Ingredient> getIngredients() {
-//        return ingredients;
-//    }
-//
-//    /**
-//     * @param ingredients the ingredients to set
-//     */
-//    public void setIngredients(List<Ingredient> ingredients) {
-//        this.ingredients = ingredients;
-//    }
-
-
     public Integer getSlices() {
         return slices;
     }
 
     public void setSlices(Integer slices) {
         this.slices = slices;
-    }
+    }   
 
-    public Ingredient getCheese() {
+    /**
+     * @return the cheese
+     */
+    public String getCheese() {
         return cheese;
     }
 
-    public void setCheese(Ingredient cheese) {
+    /**
+     * @param cheese the cheese to set
+     */
+    public void setCheese(String cheese) {
         this.cheese = cheese;
     }
 
-    public Ingredient getSauce() {
+    /**
+     * @return the sauce
+     */
+    public String getSauce() {
         return sauce;
     }
 
-    public void setSauce(Ingredient sauce) {
+    /**
+     * @param sauce the sauce to set
+     */
+    public void setSauce(String sauce) {
         this.sauce = sauce;
     }
 
-    public Ingredient getCrust() {
+    /**
+     * @return the crust
+     */
+    public String getCrust() {
         return crust;
     }
 
-    public void setCrust(Ingredient crust) {
+    /**
+     * @param crust the crust to set
+     */
+    public void setCrust(String crust) {
         this.crust = crust;
     }
+
+    /**
+     * @return the toopings
+     */
+    public List<Topping> getToopings() {
+        return toopings;
+    }
+
+    /**
+     * @param toopings the toopings to set
+     */
+    public void setToopings(List<Topping> toopings) {
+        this.toopings = toopings;
+    }
+
+    /**
+     * @return the price
+     */
+    @Override
+    public Double getPrice() {
+        Double totalPrice =  size.getPrice();
+        for(Topping topping : getToopings()){
+            totalPrice += topping.getPrice();
+        }
+        
+        return totalPrice;
+    }
+
 }

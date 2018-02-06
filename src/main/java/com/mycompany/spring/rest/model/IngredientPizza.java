@@ -8,27 +8,24 @@ package com.mycompany.spring.rest.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  *
  * @author HOUSE
  */
-@Entity (name = "Product")
-@Table(name = "product")
-public class Product implements Priceable {
+@Entity
+public class IngredientPizza implements Ingredient {
 
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
-    private Double price;
-    private String image;
+    private String description;    
+    private String type;
 
     /**
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -40,33 +37,25 @@ public class Product implements Priceable {
         this.name = name;
     }
 
-    /**
-     * @return the price
-     */
+    public Long getId() {
+        return id;
+    }
+
     @Override
-    public Double getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
 
-    /**
-     * @param price the price to set
-     */
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    /**
-     * @return the image
-     */
-    public String getImage() {
-        return image;
-    }
-
-    /**
-     * @param image the image to set
-     */
-    public void setImage(String image) {
-        this.image = image;
+    public void setDescription(String description) {
+        this.description = description;
     }
     
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

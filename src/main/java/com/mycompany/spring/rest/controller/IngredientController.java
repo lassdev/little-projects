@@ -1,7 +1,6 @@
 package com.mycompany.spring.rest.controller;
 
-import com.mycompany.spring.rest.model.Ingredient;
-import com.mycompany.spring.rest.model.OptionType;
+import com.mycompany.spring.rest.model.IngredientPizza;
 import com.mycompany.spring.rest.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,28 +26,19 @@ public class IngredientController {
      *
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/ingredients/optional")
-    public List<Ingredient> findAllOptional(){
+    @RequestMapping(method = RequestMethod.GET, value = "/ingredients")
+    public List<IngredientPizza> findAllOptional(){
         return ingredientRepository.findAll();
     }
-
-    /***
-     *
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/ingredients/mandatory")
-    public List<Ingredient> findAllMandatory(){
-        return ingredientRepository.findAll();
-    }
-
+   
     /***
      *
      * @param ingredientId
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/ingredients/{id}")
-    public ResponseEntity<Ingredient> getById(@PathVariable(value = "id") Long ingredientId){
-        Ingredient ingredient = ingredientRepository.findOne(ingredientId);
+    public ResponseEntity<IngredientPizza> getById(@PathVariable(value = "id") Long ingredientId){
+        IngredientPizza ingredient = ingredientRepository.findOne(ingredientId);
         if(ingredient == null) {
             return ResponseEntity.notFound().build();
         }
@@ -61,13 +51,12 @@ public class IngredientController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/ingredients/add")
-    public Ingredient add(@RequestBody Ingredient model){
-        Ingredient ingredient = new Ingredient();
+    public IngredientPizza add(@RequestBody IngredientPizza model){
+        IngredientPizza ingredient = new IngredientPizza();
 
         ingredient.setName(model.getName());
-        ingredient.setDescription(model.getDescription());
-        ingredient.setOptionType(model.getOptionType());
-        ingredient.setIngredientType(model.getIngredientType());
+        ingredient.setDescription(model.getDescription());        
+        ingredient.setType(model.getType());
 
 
         return ingredientRepository.save(ingredient);
@@ -80,17 +69,16 @@ public class IngredientController {
      * @return
      */
     @RequestMapping(method = RequestMethod.PUT, value = "/ingredients/update")
-    public ResponseEntity<Ingredient> update(@Valid @RequestBody Ingredient model){
-        Ingredient ingredient = ingredientRepository.findOne(model.getId());
+    public ResponseEntity<IngredientPizza> update(@Valid @RequestBody IngredientPizza model){
+        IngredientPizza ingredient = ingredientRepository.findOne(model.getId());
 
         if(ingredient == null) {
             return ResponseEntity.notFound().build();
         }
 
         ingredient.setName(model.getName());
-        ingredient.setDescription(model.getDescription());
-        ingredient.setOptionType(model.getOptionType());
-        ingredient.setIngredientType(model.getIngredientType());
+        ingredient.setDescription(model.getDescription());       
+        ingredient.setType(model.getType());
 
         return ResponseEntity.ok(ingredientRepository.save(ingredient));
 

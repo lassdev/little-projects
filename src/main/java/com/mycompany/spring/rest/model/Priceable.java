@@ -9,9 +9,8 @@ package com.mycompany.spring.rest.model;
  *
  * @author HOUSE
  */
-public interface Ingredient {
+public interface Priceable {
     
-    String getName();
-    String getDescription();
-    String getType();
+    Double getPrice();
+    
 }

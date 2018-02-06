@@ -8,7 +8,7 @@ import javax.persistence.Id;
  * Created by lsalvatierra on 2/5/2018.
  */
 @Entity
-public class OrderPizza {
+public class OrderPizza implements Priceable{
 
     @Id
     @GeneratedValue
@@ -16,6 +16,7 @@ public class OrderPizza {
 
     private Pizza pizza;
     private Integer amount;
+   
 
     public Long getId() {
         return id;
@@ -35,5 +36,10 @@ public class OrderPizza {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+    
+    @Override
+    public Double getPrice(){
+        return pizza.getPrice() * amount;
     }
 }

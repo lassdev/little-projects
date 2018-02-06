@@ -14,13 +14,13 @@ import java.util.List;
  */
 @Entity(name = "OrderShop")
 @Table(name="order_shop")
-public class OrderShop {
+public class OrderShop implements Priceable{
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private Double totalPrice;
+    private Double price;
 
     @OneToMany(
             cascade = CascadeType.ALL
@@ -30,16 +30,23 @@ public class OrderShop {
     @OneToMany(
             cascade = CascadeType.ALL
     )
-    private List<Product> product;
+    //private List<Product> product;
 
     private String statusOrder;
-
-    public Double getTotalPrice() {
-        return totalPrice;
+   
+    private void setPrice(Double price) {
+        this.price = price;
     }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
+    
+    @Override
+    public Double getPrice() {
+        
+        Double totalPrice = 0.0;
+        for(OrderPizza orderPizza : getPizzas()){
+            totalPrice += orderPizza.getPrice();
+        }
+        setPrice(totalPrice);
+        return price;
     }
 
     public List<OrderPizza> getPizzas() {
@@ -50,13 +57,13 @@ public class OrderShop {
         this.pizzas = pizzas;
     }
 
-    public List<Product> getProduct() {
+    /*public List<Product> getProduct() {
         return product;
     }
 
     public void setProduct(List<Product> product) {
         this.product = product;
-    }
+    }*/
 
     public String getStatusOrder() {
         return statusOrder;

@@ -40,18 +40,17 @@ public class OrderController {
     public void addPizzaOrder(@RequestBody ItemOrder itemOrder, @PathVariable Long orderId){
 
         OrderShop order = orderRepository.findOne(orderId);
-
+            
 
         for(OrderPizza orderItem : itemOrder.getOrderPizzas()){
             OrderPizza instance = new OrderPizza();
-               instance.setAmount(orderItem.getAmount() == null ? 1 : orderItem.getAmount());
-               instance.setPizza(orderItem.getPizza());
-
-               order.getPizzas().add(instance);
-
+            instance.setAmount(orderItem.getAmount() == null ? 1 : orderItem.getAmount());
+            instance.setPizza(orderItem.getPizza());
+            order.getPizzas().add(instance);
         }
-
-        order.setStatusOrder(OrderStatus.CONFIRMED.toString());
+        
+        
+        order.setStatusOrder(OrderStatus.CONFIRMED.toString());        
         orderRepository.save(order);
 
     }
@@ -66,6 +65,7 @@ public class OrderController {
 
     static class ItemOrder {
         private List<OrderPizza> orderPizzas;
+        private Customer customer;
 
         public List<OrderPizza> getOrderPizzas() {
             return orderPizzas;
@@ -73,6 +73,20 @@ public class OrderController {
 
         public void setOrderPizzas(List<OrderPizza> orderPizzas) {
             this.orderPizzas = orderPizzas;
+        }
+
+        /**
+         * @return the customer
+         */
+        public Customer getCustomer() {
+            return customer;
+        }
+
+        /**
+         * @param customer the customer to set
+         */
+        public void setCustomer(Customer customer) {
+            this.customer = customer;
         }
     }
 
