@@ -1,12 +1,11 @@
 package com.mycompany.spring.rest.controller;
 
-import com.mycompany.spring.rest.model.OrderShop;
-import com.mycompany.spring.rest.model.OrderStatus;
-import com.mycompany.spring.rest.model.Pizza;
-import com.mycompany.spring.rest.model.Product;
+import com.mycompany.spring.rest.model.*;
 import com.mycompany.spring.rest.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -32,46 +31,48 @@ public class OrderController {
         orderRepository.save(orderShop);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/orders")
+    public List<OrderShop> findAllOrders(){
+        return orderRepository.findAll();
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "orders/{orderId}/addPizzaOrder")
     public void addPizzaOrder(@RequestBody ItemOrder itemOrder, @PathVariable Long orderId){
 
         OrderShop order = orderRepository.findOne(orderId);
 
-        //order.getPizzas().add(itemOrder.getPizza());
+
+        for(OrderPizza orderItem : itemOrder.getOrderPizzas()){
+            OrderPizza instance = new OrderPizza();
+               instance.setAmount(orderItem.getAmount() == null ? 1 : orderItem.getAmount());
+               instance.setPizza(orderItem.getPizza());
+
+               order.getPizzas().add(instance);
+
+        }
+
+        order.setStatusOrder(OrderStatus.CONFIRMED.toString());
         orderRepository.save(order);
+
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "orders/{orderId}/addProduct")
-    public void addProductOrder(@RequestBody ItemOrder itemOrder, @PathVariable Long orderId){
-
-        OrderShop order = orderRepository.findOne(orderId);
-
-        //order.getProduct().add(itemOrder.getProduct());
-        orderRepository.save(order);
-    }
+//    @RequestMapping(method = RequestMethod.POST, value = "orders/{orderId}/addProduct")
+//    public void addProductOrder(@RequestBody ItemOrder itemOrder, @PathVariable Long orderId){
+//        // Not supported yet
+//    }
 
 
 
     static class ItemOrder {
-        private Pizza pizza;
-        private Product product;
+        private List<OrderPizza> orderPizzas;
 
-
-        public Pizza getPizza() {
-            return pizza;
+        public List<OrderPizza> getOrderPizzas() {
+            return orderPizzas;
         }
 
-        public void setPizza(Pizza pizza) {
-            this.pizza = pizza;
-        }
-
-        public Product getProduct() {
-            return product;
-        }
-
-        public void setProduct(Product product) {
-            this.product = product;
+        public void setOrderPizzas(List<OrderPizza> orderPizzas) {
+            this.orderPizzas = orderPizzas;
         }
     }
 

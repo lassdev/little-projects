@@ -9,9 +9,12 @@ import com.mycompany.spring.rest.model.Pizza;
 import com.mycompany.spring.rest.model.PizzaType;
 import com.mycompany.spring.rest.model.Size;
 import com.mycompany.spring.rest.model.SizeType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.mycompany.spring.rest.repository.OrderRepository;
+import com.mycompany.spring.rest.repository.PizzaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *
@@ -20,19 +23,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PizzaController {
 
-    @RequestMapping("/pizza")
-    public Pizza pizza(@RequestParam(value="name", defaultValue="World") String name) {                        
-        Size medium = new Size(20.5, SizeType.MEDIUM);
-        
-        PizzaType pizzaType = new PizzaType();
-        pizzaType.setName("Caprichosa");
-        pizzaType.setDescription("Tocino, jamon, salame, aceitunas, chorizo");
-        
-        Pizza pizza = new Pizza();
-        pizza.setSize(medium);
-        pizza.setPizzaType(pizzaType);
-        
-        return pizza;
+    private PizzaRepository pizzaRepository;
+
+    @Autowired
+    public PizzaController(PizzaRepository pizzaRepository){
+        this.pizzaRepository  = pizzaRepository;
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/pizzas"
+    )
+    public List<Pizza> findAllPizzas() {
+        return pizzaRepository.findAll();
+    }
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            value = "/pizzas/add"
+    )
+    public Pizza findAllPizzas(@RequestBody Pizza pizza) {
+        return pizzaRepository.save(pizza);
     }
     
 }

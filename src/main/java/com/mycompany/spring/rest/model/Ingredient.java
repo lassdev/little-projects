@@ -19,7 +19,9 @@ public class Ingredient {
     @GeneratedValue
     private Long id;
     private String name;
-    private Double price;
+    private String description;
+    private String optionType;
+    private String ingredientType;
 
     /**
      * @return the name
@@ -35,20 +37,31 @@ public class Ingredient {
         this.name = name;
     }
 
-    /**
-     * @return the price
-     */
-    public Double getPrice() {
-        return price;
+    public Long getId() {
+        return id;
     }
 
-    /**
-     * @param price the price to set
-     */
-    public void setPrice(Double price) {
-        this.price = price;
+    public String getDescription() {
+        return description;
     }
-    
-    
-    
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOptionType() {
+        return optionType;
+    }
+
+    public void setOptionType(String optionType) {
+        this.optionType = optionType;
+    }
+
+    public String getIngredientType() {
+        return ingredientType;
+    }
+
+    public void setIngredientType(String ingredientType) {
+        this.ingredientType = ingredientType;
+    }
 }

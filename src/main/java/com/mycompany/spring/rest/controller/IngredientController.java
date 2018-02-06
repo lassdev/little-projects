@@ -1,13 +1,13 @@
 package com.mycompany.spring.rest.controller;
 
 import com.mycompany.spring.rest.model.Ingredient;
+import com.mycompany.spring.rest.model.OptionType;
 import com.mycompany.spring.rest.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -23,18 +23,76 @@ public class IngredientController {
         this.ingredientRepository  = ingredientRepository;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/ingredients")
-    public List<Ingredient> findAllUsers(){
+    /***
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/ingredients/optional")
+    public List<Ingredient> findAllOptional(){
         return ingredientRepository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/ingredients/add")
-    public void addUser(@RequestBody Ingredient model){
-        Ingredient ingredient = new Ingredient();
-        ingredient.setName(model.getName());
-        ingredient.setPrice(2.5);
+    /***
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/ingredients/mandatory")
+    public List<Ingredient> findAllMandatory(){
+        return ingredientRepository.findAll();
+    }
 
-        ingredientRepository.save(ingredient);
+    /***
+     *
+     * @param ingredientId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/ingredients/{id}")
+    public ResponseEntity<Ingredient> getById(@PathVariable(value = "id") Long ingredientId){
+        Ingredient ingredient = ingredientRepository.findOne(ingredientId);
+        if(ingredient == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(ingredient);
+    }
+
+    /***
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/ingredients/add")
+    public Ingredient add(@RequestBody Ingredient model){
+        Ingredient ingredient = new Ingredient();
+
+        ingredient.setName(model.getName());
+        ingredient.setDescription(model.getDescription());
+        ingredient.setOptionType(model.getOptionType());
+        ingredient.setIngredientType(model.getIngredientType());
+
+
+        return ingredientRepository.save(ingredient);
+    }
+
+
+    /***
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.PUT, value = "/ingredients/update")
+    public ResponseEntity<Ingredient> update(@Valid @RequestBody Ingredient model){
+        Ingredient ingredient = ingredientRepository.findOne(model.getId());
+
+        if(ingredient == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ingredient.setName(model.getName());
+        ingredient.setDescription(model.getDescription());
+        ingredient.setOptionType(model.getOptionType());
+        ingredient.setIngredientType(model.getIngredientType());
+
+        return ResponseEntity.ok(ingredientRepository.save(ingredient));
 
     }
 }

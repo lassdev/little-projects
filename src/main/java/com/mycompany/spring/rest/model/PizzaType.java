@@ -5,12 +5,21 @@
  */
 package com.mycompany.spring.rest.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author HOUSE
  */
+@Entity
 public class PizzaType {
-    
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String name;
     private String image;
     private String description;
@@ -56,6 +65,9 @@ public class PizzaType {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
+
+    public Long getId() {
+        return id;
+    }
+
 }

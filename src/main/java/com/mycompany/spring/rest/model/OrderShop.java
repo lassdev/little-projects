@@ -5,16 +5,15 @@
  */
 package com.mycompany.spring.rest.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  *
- * @author HOUSE
+ * @author  lsalvatierra
  */
-@Entity
+@Entity(name = "OrderShop")
+@Table(name="order_shop")
 public class OrderShop {
 
     @Id
@@ -22,10 +21,18 @@ public class OrderShop {
     private Long id;
 
     private Double totalPrice;
-//    private List<Pizza> pizzas;
-//    private List<Product> product;
-    private String statusOrder;
 
+    @OneToMany(
+            cascade = CascadeType.ALL
+    )
+    private List<OrderPizza> pizzas;
+
+    @OneToMany(
+            cascade = CascadeType.ALL
+    )
+    private List<Product> product;
+
+    private String statusOrder;
 
     public Double getTotalPrice() {
         return totalPrice;
@@ -35,21 +42,21 @@ public class OrderShop {
         this.totalPrice = totalPrice;
     }
 
-//    public List<Pizza> getPizzas() {
-//        return pizzas;
-//    }
-//
-//    public void setPizzas(List<Pizza> pizzas) {
-//        this.pizzas = pizzas;
-//    }
-//
-//    public List<Product> getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(List<Product> product) {
-//        this.product = product;
-//    }
+    public List<OrderPizza> getPizzas() {
+        return pizzas;
+    }
+
+    public void setPizzas(List<OrderPizza> pizzas) {
+        this.pizzas = pizzas;
+    }
+
+    public List<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<Product> product) {
+        this.product = product;
+    }
 
     public String getStatusOrder() {
         return statusOrder;
@@ -57,5 +64,9 @@ public class OrderShop {
 
     public void setStatusOrder(String statusOrder) {
         this.statusOrder = statusOrder;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

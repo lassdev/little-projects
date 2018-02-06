@@ -5,12 +5,21 @@
  */
 package com.mycompany.spring.rest.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author HOUSE
  */
+@Entity
 public class Size {
-    
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String name;
     private Double price;
     private Integer slices;
@@ -64,5 +73,8 @@ public class Size {
     public void setSlices(Integer slices) {
         this.slices = slices;
     }
-     
+
+    public Long getId() {
+        return id;
+    }
 }
